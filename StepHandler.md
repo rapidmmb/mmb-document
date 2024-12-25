@@ -206,7 +206,7 @@ class RunMyMethodStepHandler extends StepHandler
 
     public function handle(Context $context, Update $update): void
     {
-        HomeSection::invokes($context, $this->arguments);
+        HomeSection::invokes($context, 'myMethod', $this->arguments);
     }
 
 }
@@ -219,7 +219,7 @@ public function main()
 {
     $step = RunMyMethodStepHandler::make();
     $step->arguments = [1, 2, 3];
-    $step->keep();
+    $step->keep($this->context);
 }
 ```
 
@@ -233,7 +233,7 @@ the user sends another message.
 ```php
 public function handle(Context $context, Update $update): void
 {
-    HomeSection::invokes($context, $this->arguments);
+    HomeSection::invokes($context, 'myMethod', $this->arguments);
 }
 ```
 
