@@ -214,7 +214,7 @@ protected $inputs = [
 ```php
 TestForm::make($context)->requestChunk('bankChunk');
 TestForm::make($context)->requestChunk(['name', 'bankChunk']);
-TestForm::make($context['user' => $user])->requestChunk('name');
+TestForm::make($context, ['user' => $user])->requestChunk('name');
 TestForm::make($context)->requestChunk('name', [
     'user' => $user,
 ]);
