@@ -10,10 +10,10 @@ php artisan vendor:publish --tag=mmb
 
 ## Documents
 
-* [Action](Action)
-* [Inline Action](InlineAction)
-* [Handler](Handler)
-* [Step Handler](StepHandler)
-* [Resource Section](ResourceSection)
-* [Accessibility](Accessibility)
-* [Utils](Utils)
+* [Action](Action.md)
+* [Inline Action](InlineAction.md)
+* [Handler](Handler.md)
+* [Step Handler](StepHandler.md)
+* [Resource Section](ResourceSection.md)
+* [Accessibility](Accessibility.md)
+* [Utils](Utils.md)

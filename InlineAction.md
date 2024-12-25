@@ -130,7 +130,7 @@ public function mainMenu(Menu $menu)
 }
 ```
 
-[See in StepHandler...](StepHandler#2-begin)
+[See in StepHandler...](StepHandler.md#2-begin)
 
 #### 4. End Update
 
@@ -144,7 +144,7 @@ public function mainMenu(Menu $menu)
 }
 ```
 
-[See in StepHandler...](StepHandler#3-end)
+[See in StepHandler...](StepHandler.md#3-end)
 
 #### 5. Lost
 
@@ -160,7 +160,7 @@ public function editImageMenu(Menu $menu, string $imagePath)
 }
 ```
 
-[See in StepHandler...](StepHandler#4-lost)
+[See in StepHandler...](StepHandler.md#4-lost)
 
 
 ### Variant Memory
