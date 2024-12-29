@@ -146,7 +146,7 @@ protected $path = [
 ];
 ```
 
-#### Settings
+### Settings
 ```php
 protected $cancelKey = false;
 protected $defaultFormKey = false;
@@ -157,10 +157,47 @@ protected $mirrorKey = true;
 protected $previousKey = "<< Previous <<";
 ```
 
-#### Attributes
+### Attributes
+
+#### 1. Input Attributes
 ```php
 public function amount(Input $input);
 
+public function onFinish()
+{
+    $amount = $this->amount;
+}
+```
+
+Can fill when requested:
+```php
+MyForm::make($this->context)->request(['amount' => 100]);
+```
+
+And skip when is filled:
+```php
+public function amount(Input $input)
+{
+    $input->jumpFilled();
+}
+```
+
+#### 2. Anonymous Attributes
+
+```php
+MyForm::make($this->context)->request(['number' => 100]);
+```
+
+```php
+public function onFinish()
+{
+    $number = $this->number;
+}
+```
+
+#### 3. Property Attributes
+
+```php
 #[AsAttribute]
 public $customAttr;
 
@@ -170,23 +207,75 @@ public BotUser $user;
 
 public function onFinish()
 {
-    $amount = $this->amount;
     $customAttr = $this->customAttr;
     $user = $this->user;
 }
 ```
 
-#### Requests
+```php
+MyForm::make($this->context)->request([
+    'customAttr' => 'Hello Mmb',
+    'user' => $user,
+]);
+```
+
+#### Required Rule
+
+You can force the form requester to fill in the attributes:
+```php
+#[RequiredAttributes(['number', 'user'])]
+class MyForm extends Form
+```
+
+Then, if the request command is executed without these values, an error will be thrown.
+
+Or you can do this for property attributes:
+```php
+class MyForm extends Form
+{
+    #[Required]
+    #[AsAttribute]
+    public int $number;
+}
+```
+
+```php
+MyForm::make($this->context)->request(); // Error
+MyForm::make($this->context)->request(['name' => null]); // Error
+MyForm::make($this->context)->request(['name' => 'Mahdi']); // OK
+```
+
+By default, it checks that the entered value is not null,
+if you want to check that it is not empty, you can change its mode:
+
+```php
+class MyForm extends Form
+{
+    #[Required(Required::NOT_EMPTY)]
+    #[AsAttribute]
+    public string $name;
+}
+```
+
+```php
+MyForm::make($this->context)->request(); // Error
+MyForm::make($this->context)->request(['name' => '']); // Error
+MyForm::make($this->context)->request(['name' => '0']); // Error
+MyForm::make($this->context)->request(['name' => 'Mahdi']); // OK
+```
+
+
+### Requests
 ```php
 TestForm::make($context)->request();
 // Or
 TestForm::make($context)->request([
-    'customAttr' => 'Test',
+    'number' => 100,
     'user' => $user,
 ]);
 // Or
 TestForm::make($context, [
-    'customAttr' => 'Test',
+    'number' => 100,
     'user' => $user,
 ])->request();
 ```
