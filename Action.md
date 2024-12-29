@@ -221,6 +221,82 @@ TestForm::make($context)->requestChunk('name', [
 TestForm::make($context, ['user' => $user])->withChunk('name')->request();
 ```
 
+## With Records
+
+```php
+class EditUser extends Form
+{
+    use HasRecords;
+    
+    #[AsAttribute]
+    #[Find]
+    public BotUser $user;
+    
+    protected function record(): Model
+    {
+        return $this->user;
+    }
+    
+    public function name(Input $input)
+    {
+        // ...
+    }
+    
+    public function age(Input $input)
+    {
+        // ...
+    }
+    
+    public function onFinish()
+    {
+        $this->updateRecord(['name', 'age']);
+        $this->response("Updated!");
+        $this->back();
+    }
+}
+```
+
+Update advanced parameters:
+
+```php
+// Simple, input names
+$this->updateRecord([
+    'name',
+    'age',
+]);
+
+// Rename inputs
+$this->updateRecord([
+    'name' => 'user_name',
+    'age' => 'user_age',
+]);
+
+// Modify values
+$this->updateRecord([
+    'name' => function (string $name) {
+        return "[[$name]]";
+    },
+    'age' => function (int $age) {
+        return $age + 14;
+    },
+]);
+
+// Expand values
+$this->updateRecord([
+    'name' => [
+        'first_name' => function (string $name) {
+            return explode(' ', $name)[0];
+        },
+        'last_name' => function (string $name) {
+            return explode(' ', $name)[1];
+        },
+    ],
+]);
+
+// Extra values
+$this->updateRecord(['name', 'age'], ['vip_until' => now()]);
+```
+
 ## Input
 ### Prompt
 ```php
